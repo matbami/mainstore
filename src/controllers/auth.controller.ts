@@ -8,8 +8,7 @@ class AuthController {
   public signUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userData: UserInterface = req.body;
-      const signUpUserData: UserInterface = await this.authService.signUp(userData);
-
+      const signUpUserData = await this.authService.signUp(userData);
       res.status(201).json({ message: 'User Signup successfully', data: signUpUserData });
     } catch (error) {
       next(error);
@@ -21,12 +20,11 @@ class AuthController {
       const userData: LoginInterface = req.body;
       const user = await this.authService.login(userData);
 
-      res.status(200).json({message: 'Login succesful' , data: user});
+      res.status(200).json({ message: 'Login succesful', data: user });
     } catch (error) {
       next(error);
     }
   };
-
 
   // HOLD ON FOR LOGOUT
   // public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {

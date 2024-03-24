@@ -9,30 +9,31 @@ import { isEmpty } from '@utils/util';
 
 class AuthService {
   public users = userModel;
-  public async signUp(userData: UserInterface): Promise<UserInterface> {
+  public async signUp(userData: UserInterface): Promise<{ user: UserInterface; token }> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
     const findUser: UserInterface = await this.users.findOne({ email: userData.email });
     if (findUser) throw new HttpException(409, `This email ${userData.email} already exists`);
 
     const hashedPassword = await hash(userData.password, 10);
-    const createUserData: UserInterface = await this.users.create({ ...userData, password: hashedPassword });
 
-    return createUserData;
+    const user: UserInterface = await this.users.create({ ...userData, password: hashedPassword });
+    const token = this.createToken(user);
+    return { user, token };
   }
 
-  public async login(userData: LoginInterface): Promise<{findUser: LoginInterface, token: TokenData}> {
+  public async login(userData: LoginInterface): Promise<{ user: LoginInterface; token: TokenData }> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
-    const findUser: UserInterface = await this.users.findOne({ email: userData.email });
-    if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
+    const user: UserInterface = await this.users.findOne({ email: userData.email });
+    if (!user) throw new HttpException(409, `This email ${userData.email} was not found`);
 
-    const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
+    const isPasswordMatching: boolean = await compare(userData.password, user.password);
     if (!isPasswordMatching) throw new HttpException(409, 'Password is not matching');
 
-    const tokenData = this.createToken(findUser);
-    findUser.token = tokenData
-   
-    return  { findUser, token:tokenData};
+    const token = this.createToken(user);
+    user.token = token;
+
+    return { user, token };
   }
 
   // public async updateUser(productId: string, productData: Product): Promise<Product> {
@@ -68,9 +69,8 @@ class AuthService {
     const secretKey: string = SECRET_KEY;
     const expiresIn: number = 60 * 60;
 
-    return { expiresIn, token: sign(dataStoredInToken, secretKey, { expiresIn }) };
+    return { token: sign(dataStoredInToken, secretKey, { expiresIn }) };
   }
-
 }
 
 export default AuthService;
