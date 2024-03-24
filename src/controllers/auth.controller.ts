@@ -19,9 +19,9 @@ class AuthController {
   public logIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userData: LoginInterface = req.body;
-      const findUser = await this.authService.login(userData);
+      const user = await this.authService.login(userData);
 
-      res.status(200).json({message: 'Login succesful' , data: findUser});
+      res.status(200).json({message: 'Login succesful' , data: user});
     } catch (error) {
       next(error);
     }
