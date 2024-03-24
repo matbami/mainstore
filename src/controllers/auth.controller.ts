@@ -10,7 +10,7 @@ class AuthController {
       const userData: UserInterface = req.body;
       const signUpUserData: UserInterface = await this.authService.signUp(userData);
 
-      res.status(201).json({ data: signUpUserData, message: 'signup' });
+      res.status(201).json({ message: 'User Signup successfully', data: signUpUserData });
     } catch (error) {
       next(error);
     }
@@ -21,7 +21,7 @@ class AuthController {
       const userData: LoginInterface = req.body;
       const findUser = await this.authService.login(userData);
 
-      res.status(200).json({ data: findUser, message: 'login' });
+      res.status(200).json({message: 'Login succesful' , data: findUser});
     } catch (error) {
       next(error);
     }
