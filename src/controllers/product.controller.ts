@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { Product } from '@/interfaces/products.interface';
-import ProductService from '@/services/product.service';
-import { RequestWithUser } from '@/interfaces/auth.interface';
+import { Product } from '../interfaces/products.interface';
+import ProductService from '../services/product.service';
+import { RequestWithUser } from '../interfaces/auth.interface';
 
 class ProductController {
   public productService = new ProductService();
@@ -30,7 +30,7 @@ class ProductController {
   public createProduct = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const productData: Product = req.body;
-      const product: Product = await this.productService.createProduct(productData,req.user._id);
+      const product: Product = await this.productService.createProduct(productData, req.user._id);
 
       res.status(201).json({ message: 'product created successfully', data: product });
     } catch (error) {

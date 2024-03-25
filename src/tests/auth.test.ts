@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import request from 'supertest';
-import App from '@/app';
-import AuthRoute from '@routes/auth.route';
-import {UserInterface, LoginInterface} from '../interfaces/users.interface'
+import App from '../app';
+import AuthRoute from '../routes/auth.route';
+import { UserInterface, LoginInterface } from '../interfaces/users.interface';
 
 beforeAll(async () => {
   jest.setTimeout(10000);
@@ -18,7 +18,7 @@ describe('Testing Auth', () => {
       const userData: UserInterface = {
         email: 'test@email.com',
         password: 'q1w2e3r4!',
-        role: 'admin'
+        role: 'admin',
       };
 
       const authRoute = new AuthRoute();
@@ -29,7 +29,7 @@ describe('Testing Auth', () => {
         _id: '60706478aad6c9ad19a31c84',
         email: userData.email,
         password: await bcrypt.hash(userData.password, 10),
-        role: userData.role
+        role: userData.role,
       });
 
       (mongoose as any).connect = jest.fn();
@@ -58,12 +58,8 @@ describe('Testing Auth', () => {
 
       (mongoose as any).connect = jest.fn();
       const app = new App([authRoute]);
-      return request(app.getServer())
-        .post(`${authRoute.path}login`)
-        .send(loginData)
-        // .expect('Set-Cookie', /^Authorization=.+/);
+      return request(app.getServer()).post(`${authRoute.path}login`).send(loginData);
+      // .expect('Set-Cookie', /^Authorization=.+/);
     });
   });
-
-
 });

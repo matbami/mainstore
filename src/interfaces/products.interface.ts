@@ -1,10 +1,8 @@
 export interface Product {
-    _id?: string;
-    name: string;
-    price: number;
-    description: string;
-    quantity: number;
-    createdBy?: string
-
-  }
-  
+  _id?: string;
+  name?: string;
+  price?: number;
+  description?: string;
+  quantity?: number;
+  createdBy?: string;
+}

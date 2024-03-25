@@ -1,6 +1,5 @@
 import { model, Schema, Document } from 'mongoose';
-import { Product } from '@/interfaces/products.interface';
-
+import { Product } from '../interfaces/products.interface';
 
 const productSchema: Schema = new Schema(
   {
@@ -23,8 +22,7 @@ const productSchema: Schema = new Schema(
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
-      
+      ref: 'User',
     },
   },
   { timestamps: true },

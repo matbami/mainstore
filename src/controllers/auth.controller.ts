@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { LoginInterface, UserInterface } from '@interfaces/users.interface';
-import AuthService from '@services/auth.service';
+import { LoginInterface, UserInterface } from '../interfaces/users.interface';
+import AuthService from '../services/auth.service';
 
 class AuthController {
   public authService = new AuthService();
@@ -25,19 +25,6 @@ class AuthController {
       next(error);
     }
   };
-
-  // HOLD ON FOR LOGOUT
-  // public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
-  //   try {
-  //     const userData: UserInterface = req.user;
-  //     const logOutUserData: UserInterface = await this.authService.logout(userData);
-
-  //     res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
-  //     res.status(200).json({ data: logOutUserData, message: 'logout' });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
 }
 
 export default AuthController;
