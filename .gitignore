@@ -30,7 +30,7 @@ coverage
 # Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
-# Bower dependency directory (https://bower.io/)
+
 bower_components
 
 # node-waf configuration
@@ -92,6 +92,7 @@ out
 .nuxt
 dist
 
+.env
 # Gatsby files
 .cache/
 # Comment in the public line in if your project uses Gatsby and not Next.js
